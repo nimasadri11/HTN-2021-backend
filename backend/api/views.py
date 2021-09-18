@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .utils import capture
-from models import *
+from .models import *
 # from avybe_api.api.models import Ballot, BookedCall, Call, User
 # import avybe_api.api.serializers as serializers
 # import boto3
@@ -28,10 +28,16 @@ class Capture(APIView):
 
 class Update(APIView):
     def post(self, request):
-        request.data
+        bought = {}
         for k,v in request.data.items():
             p = Product.objects.get(title = k)
+            bought[k] = p.count - int(v)
+            print(k)
+            print("OLD: ", p.count)
+            print("NEW: ", v)
             p.count = v
             p.save()
+        print(bought)
+        return Response(bought)
         
         

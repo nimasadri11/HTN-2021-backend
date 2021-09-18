@@ -81,7 +81,10 @@ def show_custom_labels(model, min_confidence):
     return results
 
 def capture():
+    # Old model
     model='arn:aws:rekognition:us-east-1:039418442864:project/htn-store-2/version/htn-store-2.2021-09-17T20.55.32/1631926532256'
+    # New model
+    # model='arn:aws:rekognition:us-east-1:039418442864:project/htn-store-2/version/htn-store-2.2021-09-18T11.08.33/1631977714086'
     min_confidence=80
     res = show_custom_labels(model, min_confidence)
     print(res)
