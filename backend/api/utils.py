@@ -22,16 +22,8 @@ def get_image():
     return image
 
 
-def display_image(bucket,photo,response,img):
-    # Load image from S3 bucket
-    s3_connection = boto3.resource('s3')
-
-    s3_object = s3_connection.Object(bucket,photo)
-    s3_response = s3_object.get()
-
-    stream = io.BytesIO(s3_response['Body'].read())
-    #image=Image.open(stream)
-    #image = Image.open("img5.jpg")
+def display_image(response,img):
+    
     image = Image.open(io.BytesIO(img))
 
     # Ready image to draw bounding boxes on it.
@@ -40,7 +32,7 @@ def display_image(bucket,photo,response,img):
 
     # calculate and display bounding boxes for each detected custom label
     print(response)
-    print('Detected custom labels for ' + photo)
+    print('Detected custom labels')
     for customLabel in response['CustomLabels']:
         print('Label ' + str(customLabel['Name']))
         print('Confidence ' + str(customLabel['Confidence']))
@@ -69,7 +61,7 @@ def display_image(bucket,photo,response,img):
     print("SHOWING IMAGE")
     image.show()
 
-def show_custom_labels(model,bucket,photo, min_confidence):
+def show_custom_labels(model, min_confidence):
     client=boto3.client('rekognition')
     #image = open("img5.jpg", "rb")
     #img = image.read()
@@ -85,15 +77,13 @@ def show_custom_labels(model,bucket,photo, min_confidence):
     r = list(map(lambda x: x['Name'], response['CustomLabels']))
     results = {value: len(list(freq)) for value, freq in groupby(sorted(r))}
     # For object detection use case, uncomment below code to display image.
-    display_image(bucket,photo,response,img)
+    display_image(response,img)
     return results
 
 def capture():
-    bucket='htn-2021'
-    photo='train-store-2/Photo on 2021-09-17 at 6.39 PM.jpg'
     model='arn:aws:rekognition:us-east-1:039418442864:project/htn-store-2/version/htn-store-2.2021-09-17T20.55.32/1631926532256'
     min_confidence=80
-    res = show_custom_labels(model,bucket,photo, min_confidence)
+    res = show_custom_labels(model, min_confidence)
     print(res)
     cv2.destroyAllWindows()
     return res
