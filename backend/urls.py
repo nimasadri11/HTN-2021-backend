@@ -19,5 +19,6 @@ from backend.api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.Root.as_view())
+    path('', views.Root.as_view()),
+    path('api/capture/', views.Capture.as_view())
 ]

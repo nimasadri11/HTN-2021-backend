@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from .utils import capture
 # from avybe_api.api.models import Ballot, BookedCall, Call, User
 # import avybe_api.api.serializers as serializers
 # import boto3
@@ -16,3 +17,9 @@ class Root(APIView):
         
         
         return Response({})
+
+
+class Capture(APIView):
+    def get(self, request):
+        res = capture()
+        return Response(res)
