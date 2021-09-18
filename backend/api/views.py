@@ -29,6 +29,8 @@ class Capture(APIView):
 class Update(APIView):
     def post(self, request):
         bought = {}
+        c = 0
+        t = 0
         for k,v in request.data.items():
             p = Product.objects.get(title = k)
             bought[k] = p.count - int(v)
@@ -37,7 +39,15 @@ class Update(APIView):
             print("NEW: ", v)
             p.count = v
             p.save()
+
+            c += p.price * bought[k]
+            t += round(float(c) * float(1.13),2)
+            
+            
+
+            
         print(bought)
+        return Response({"total": t})
         return Response(bought)
         
         

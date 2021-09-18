@@ -11,5 +11,4 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['Title', 'Slug', 'Price',]
-    list_editable = ['Price',] 
     prepopulated_fields = {'slug': ('title',)}
