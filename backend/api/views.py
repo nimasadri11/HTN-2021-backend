@@ -93,6 +93,7 @@ class Inventory(APIView):
             inv = {}
             inv["ProductName"] = prod.title
             inv["UnitsInStock"] = av
+            inv["UnitsInCart"] = prod.cart_count
             # res[prod.title] = av
             res.append(inv)
         return Response(res)
