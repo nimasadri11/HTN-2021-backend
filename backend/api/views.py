@@ -32,23 +32,28 @@ class Checkout(APIView):
         bought = {}
         c = 0
         t = 0
-        for k,v in request.data.items():
-            p = Product.objects.get(title = k)
-            bought[k] = p.count - int(v)
-            print(k)
-            print("OLD: ", p.count)
-            print("NEW: ", v)
-            p.count = v
-            p.save()
+        tot = 0
+        ps = Product.objects.all()
+        for p in ps:
+            tot += (p.cart_counter * p.price)
+        tot *= 1.13    
+        # for k,v in request.data.items():
+        #     p = Product.objects.get(title = k)
+        #     bought[k] = p.count - int(v)
+        #     print(k)
+        #     print("OLD: ", p.count)
+        #     print("NEW: ", v)
+        #     p.count = v
+        #     p.save()
 
-            c += p.price * bought[k]
-            t += round(float(c) * float(1.13),2)
+            # c += p.price * bought[k]
+            # t += round(float(c) * float(1.13),2)
             
             
 
             
-        print(bought)
-        return Response({"Your total is": t})
+        # print(bought)
+        return Response({"total": tot})
         return Response(bought)
         
 class StartShoping(APIView):
@@ -82,7 +87,8 @@ class GetCart(APIView):
             p.save()
         
         return Response(cart)
-            
+
+
 
 class Inventory(APIView):
     def get(self, request):
