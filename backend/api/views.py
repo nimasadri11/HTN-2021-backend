@@ -1,3 +1,4 @@
+from itertools import product
 from backend.api import models
 from rest_framework.views import APIView
 from rest_framework import status
@@ -83,3 +84,15 @@ class GetCart(APIView):
         return Response(cart)
             
 
+class Inventory(APIView):
+    def get(self, request):
+        ps = Product.objects.all()
+        res = {}
+        for prod in ps:
+            av = prod.count - prod.cart_count
+            res[prod.title] = av
+        return Response(res)
+
+            
+
+        

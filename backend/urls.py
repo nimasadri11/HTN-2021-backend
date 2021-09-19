@@ -12,7 +12,8 @@ urlpatterns = [
     path('api/capture/', views.Capture.as_view()),
     path('api/checkout/', views.Checkout.as_view()),
     path('api/getcart/', views.GetCart.as_view()),
-    path('api/start/', views.StartShoping.as_view())
+    path('api/start/', views.StartShoping.as_view()),
+    path('api/inventory/', views.Inventory.as_view()),
 ]
 
 if settings.DEBUG:
