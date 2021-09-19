@@ -18,7 +18,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to = 'images/')
     slug = models.SlugField(max_length = 255)
     price = models.DecimalField(max_digits = 4, decimal_places = 2)
-    count = models.IntegerField(default=0)
+    count = models.IntegerField(default = 0)
+    total = models.IntegerField(default = 0)
 
 
     class meta:

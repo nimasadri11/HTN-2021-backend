@@ -47,7 +47,7 @@ class Update(APIView):
 
             
         print(bought)
-        return Response({"total": t})
+        return Response({"Your total is": t})
         return Response(bought)
         
         
