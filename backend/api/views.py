@@ -77,6 +77,8 @@ class GetCart(APIView):
             print(v)
             p = Product.objects.get(title = k)
             cart[k] = p.count - int(v)
+            p.cart_count = cart[k]
+            p.save()
         
         return Response(cart)
             
