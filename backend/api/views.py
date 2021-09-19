@@ -2,7 +2,7 @@ from backend.api import models
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .utils import capture
+from .utils import *
 from .models import *
 # from avybe_api.api.models import Ballot, BookedCall, Call, User
 # import avybe_api.api.serializers as serializers
@@ -26,7 +26,7 @@ class Capture(APIView):
         res = capture()
         return Response(res)
 
-class Update(APIView):
+class Checkout(APIView):
     def post(self, request):
         bought = {}
         c = 0
@@ -50,4 +50,36 @@ class Update(APIView):
         return Response({"Your total is": t})
         return Response(bought)
         
+class StartShoping(APIView):
+    def post(self, request):
+        res = capture()
+        send_to_firestore({'orange': 0, 'coke': 0, 'cup': 0})
+        Product.objects.all().update(count = 0)
+        for k,v in res.items():
+            p = Product.objects.get(title = k)
+            p.count = v
+            p.save()
+            print(p)
+        return Response(res)
+
+class GetCart(APIView):
+    def post(self, request):
+        data = request.data.dict()
+        print(type(data))
+        print(data)
+        data.setdefault('orange', 0)
+        data.setdefault('coke', 0)
+        data.setdefault('cup', 0)
+        # print(list(data.values()))
+        cart = {}
+        for k,v in data.items():
+            print(k)
+            print(v)
+            p = Product.objects.get(title = k)
+            cart[k] = p.count - int(v)
+            p.cart_count = cart[k]
+            p.save()
         
+        return Response(cart)
+            
+

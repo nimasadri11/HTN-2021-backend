@@ -10,7 +10,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.Root.as_view()),
     path('api/capture/', views.Capture.as_view()),
-    path('api/update/', views.Update.as_view())
+    path('api/checkout/', views.Checkout.as_view()),
+    path('api/getcart/', views.GetCart.as_view()),
+    path('api/start/', views.StartShoping.as_view())
 ]
 
 if settings.DEBUG:

@@ -1,12 +1,19 @@
 #Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #PDX-License-Identifier: MIT-0 (For details, see https://github.com/awsdocs/amazon-rekognition-custom-labels-developer-guide/blob/master/LICENSE-SAMPLECODE.)
-
 from itertools import groupby
 import boto3
 import io
 from PIL import Image, ImageDraw, ExifTags, ImageColor, ImageFont
 import cv2
 import sys
+from google.cloud import firestore
+import firebase_admin
+
+
+
+if not firebase_admin._apps:
+    default_app = firebase_admin.initialize_app()
+db = firestore.Client()
 
 def get_image():
     camera = cv2.VideoCapture(0)
@@ -90,6 +97,13 @@ def capture():
     print(res)
     cv2.destroyAllWindows()
     return res
+
+def send_to_firestore(res):
+    doc_ref = db.collection(u'htn').document(u'current')
+    doc_ref.set(res)
+# def calculate_cart(data):
+  
+
 
 def main():
 
