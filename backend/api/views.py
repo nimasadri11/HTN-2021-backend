@@ -87,10 +87,14 @@ class GetCart(APIView):
 class Inventory(APIView):
     def get(self, request):
         ps = Product.objects.all()
-        res = {}
+        res = []
         for prod in ps:
             av = prod.count - prod.cart_count
-            res[prod.title] = av
+            inv = {}
+            inv["ProductName"] = prod.title
+            inv["UnitsInStock"] = av
+            # res[prod.title] = av
+            res.append(inv)
         return Response(res)
 
             
